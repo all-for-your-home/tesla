@@ -1,0 +1,26 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/furniture
+    username: postgres
+    password: root1234
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  servlet:
+    multipart:
+      max-request-size: 10MB
+      max-file-size: 10MB
+jwt:
+  access:
+    key: cksdIOJ*HGytgyuhd4651846DE"E0-plmnlo[-22#';@5
+    expiration-time: 7200000000
+  refresh:
+    key: kjecnjewk4896213-={}]'dqKJBBUI77y)0@#!£485142
+    expiration-time: 604800000
+
+springdoc:
+  api-docs:
+    path: /api/v3/api-docs
+  swagger-ui:
+    path: /api/swagger-ui.html
