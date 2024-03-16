@@ -22,8 +22,8 @@ public class AuthControllerImpl implements AuthController {
     }
 
     @Override
-    public Response<String> forgotPassword(String email) {
-        return authService.forgotPassword(email);
+    public Response<String> forgotPassword(String phoneNumber) {
+        return authService.forgotPassword(phoneNumber);
     }
 
     @Override
@@ -32,12 +32,12 @@ public class AuthControllerImpl implements AuthController {
     }
 
     @Override
-    public Response<String> verifyAccount(String verificationCode) {
-        return authService.verifyAccount(verificationCode);
+    public Response<String> verifyAccount(VerificationCodeDTO verificationCodeDTO) {
+        return authService.verifyAccount(verificationCodeDTO);
     }
 
     @Override
-    public Response<String> checkPasswordVerificationCode(String code) {
-        return authService.checkPasswordVerificationCode(code);
+    public Response<String> checkPasswordVerificationCode(VerificationCodeDTO verificationCodeDTO) {
+        return authService.checkPasswordVerificationCode(verificationCodeDTO);
     }
 }

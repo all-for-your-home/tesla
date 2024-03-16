@@ -15,8 +15,6 @@ public interface AuthController {
     String FORGOT_PASSWORD_PATH = "/forgot-password";
     String RESET_PASSWORD_PATH = "/reset-password";
     String VERIFY_ACCOUNT_PATH = "/verify-account";
-    String CREATE_ADMIN_PATH = "/admin";
-
     String CHECK_PASSWORD_VERIFICATION_CODE_PATH = "/check-password-verification";
 
     @PostMapping(SIGN_UP_PATH)
@@ -26,14 +24,14 @@ public interface AuthController {
     Response<TokenDTO> signIn(@Valid @RequestBody SignInDTO signInDTO);
 
     @GetMapping(FORGOT_PASSWORD_PATH)
-    Response<String> forgotPassword(@Valid @Email @RequestParam String email);
+    Response<String> forgotPassword(@Valid @Email @RequestParam String phoneNumber);
 
     @PutMapping(RESET_PASSWORD_PATH)
     Response<String> resetPassword(@Valid @RequestBody ResetPasswordDTO resetPasswordDTO);
 
-    @GetMapping(VERIFY_ACCOUNT_PATH + "/{verificationCode}")
-    Response<String> verifyAccount(@PathVariable String verificationCode);
+    @PostMapping(VERIFY_ACCOUNT_PATH)
+    Response<String> verifyAccount(@Valid @RequestBody VerificationCodeDTO verificationCodeDTO);
 
-    @GetMapping(CHECK_PASSWORD_VERIFICATION_CODE_PATH)
-    Response<String> checkPasswordVerificationCode(@RequestParam String code);
+    @PostMapping(CHECK_PASSWORD_VERIFICATION_CODE_PATH)
+    Response<String> checkPasswordVerificationCode(@Valid @RequestBody VerificationCodeDTO verificationCodeDTO);
 }

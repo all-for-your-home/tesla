@@ -42,6 +42,7 @@ public class User extends AbsUUIDEntity implements UserDetails {
     @OneToOne
     private Attachment avatar;
 
+    @Column(unique = true)
     private Integer verificationCode;
 
     @Builder.Default

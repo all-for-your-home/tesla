@@ -33,8 +33,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 new Components().addSecuritySchemes("Bearer Authentication", createAPIKeyScheme())
         ).info(
                 new Info()
-                        .title("DB-search API")
-                        .description("This api was generated using springdoc for DB-search app")
+                        .title("All for your Home")
+                        .description("This api was generated using springdoc for All For Your Home app")
                         .version("1.0")
                         .contact(
                                 new Contact()

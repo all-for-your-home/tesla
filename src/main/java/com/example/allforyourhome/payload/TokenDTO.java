@@ -2,6 +2,7 @@ package com.example.allforyourhome.payload;
 
 
 import com.example.allforyourhome.utils.RestConstants;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.*;
 
 @Getter
@@ -9,9 +10,19 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class TokenDTO {
-
-    private final String tokenType = RestConstants.TOKEN_TYPE;
+    private Data data;
+    private String message;
     private String accessToken;
-    private String refreshToken;
+    private String tokenType = RestConstants.TOKEN_TYPE;
+
+    @Builder
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Data {
+        private String token;
+    }
 }

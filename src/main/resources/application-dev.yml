@@ -13,11 +13,16 @@ spring:
       max-file-size: 10MB
 jwt:
   access:
-    key: cksdIOJ*HGytgyuhd4651846DE"E0-plmnlo[-22#';@5
+    key: cksdIOJHGytgyuhd4651846DE7E0plmnlo22455hkfjsieioef45785654czxdkcjasincosaffd
     expiration-time: 7200000000
   refresh:
-    key: kjecnjewk4896213-={}]'dqKJBBUI77y)0@#!£485142
+    key: kjecnjewk4896213-={}]dqKJBBUI77y)0@#!£485142
     expiration-time: 604800000
+
+app:
+  eskiz:
+    email: dilshodlatipov445@gmail.com
+    password: TK26LwYZ1MoW7YWATRkyj04Gq59tNevZ3gt88jMw
 
 springdoc:
   api-docs:

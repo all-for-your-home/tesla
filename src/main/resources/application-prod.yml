@@ -13,7 +13,7 @@ spring:
       max-file-size: 10MB
 jwt:
   access:
-    key: cksdIOJ*HGytgyuhd4651846DE"E0-plmnlo[-22#';@5
+    key: cksdIOJHGytgyuhd4651846DE7E0plmnlo22455hkfjsieioef45785654czxdkcjasincosaffd
     expiration-time: 7200000000
   refresh:
     key: kjecnjewk4896213-={}]'dqKJBBUI77y)0@#!£485142
