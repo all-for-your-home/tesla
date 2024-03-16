@@ -1,5 +1,7 @@
 package com.example.allforyourhome.config;
 
+import com.example.allforyourhome.exceptions.CustomErrorDecoder;
+import feign.codec.ErrorDecoder;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
@@ -58,5 +60,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Bean
     public SnsClient snsClient() {
         return SnsClient.builder().region(Region.EU_WEST_1).build();
+    }
+
+    @Bean
+    public ErrorDecoder errorDecoder() {
+        return new CustomErrorDecoder();
     }
 }

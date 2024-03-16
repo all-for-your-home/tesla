@@ -25,7 +25,7 @@ public class Category {
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL,orphanRemoval = true)
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
     private List<Product> products;
 

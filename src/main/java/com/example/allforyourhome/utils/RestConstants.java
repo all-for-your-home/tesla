@@ -33,7 +33,7 @@ public interface RestConstants {
     int USER_NOT_ACTIVE = 3013;
     int JWT_TOKEN_INVALID = 3014;
     String PASSWORD_REGEX = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@!?£$%^&\\-+*=/\\\\_])[A-Za-z\\d@!?£$%^&\\-+*=/\\\\_]{8,}$";
-    String PHONE_REGEX = "^\\d{9}$";
+    String PHONE_REGEX = "^(33|90|91|93|94|95|97|98|99|55|88)(\\d{7})$";
     String UZB_CODE = "+998";
     String UUID_REGEX = "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$";
     String NUMBER_REGEX = "^\\d+$";

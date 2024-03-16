@@ -20,7 +20,7 @@ import java.time.LocalDateTime;
 public class ProductService {
     private final ProductRepository repository;
     private final CategoryRepository categoryRepository;
-    private ModelMapper mapper = new ModelMapper();
+    private final ModelMapper mapper = new ModelMapper();
 
     public ProductResponseDto create(ProductCreateDto productCreateDto) {
         Product product = mapper.map(productCreateDto, Product.class);
@@ -63,10 +63,10 @@ public class ProductService {
         Product product = repository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException("This id %d Product Not found")
         );
-          mapper.map(updateDto, product);
+        mapper.map(updateDto, product);
 
         product = repository.save(product);
 
-        return mapper.map(product,ProductResponseDto.class);
+        return mapper.map(product, ProductResponseDto.class);
     }
 }

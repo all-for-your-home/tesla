@@ -32,14 +32,4 @@ public class SnsSmsServiceImpl implements SmsService {
             e.printStackTrace();
         }
     }
-
-    @Override
-    public void authorize() {
-
-    }
-
-    @Override
-    public void refresh() {
-
-    }
 }
