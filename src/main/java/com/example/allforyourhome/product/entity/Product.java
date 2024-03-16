@@ -33,6 +33,4 @@ public class Product {
     @JoinColumn(name = "category_id", nullable = false)
     @JsonBackReference
     private Category category;
-
-
 }

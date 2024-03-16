@@ -2,10 +2,12 @@ package com.example.allforyourhome.security;
 
 import com.example.allforyourhome.entity.User;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.security.Keys;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.UUID;

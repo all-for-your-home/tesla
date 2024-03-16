@@ -20,4 +20,8 @@ public interface UserMapper {
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     @Mapping(target = "id", ignore = true)
     void update(UserDTO userDTO, @MappingTarget User user);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    @Mapping(target = "phoneNumber", ignore = true)
+    void update(SignUpDTO signUpDTO, @MappingTarget User user);
 }

@@ -8,7 +8,6 @@ import com.example.allforyourhome.repository.UserRepository;
 import com.example.allforyourhome.security.JwtTokenProvider;
 import com.example.allforyourhome.utils.MessageConstants;
 import com.example.allforyourhome.utils.RestConstants;
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.*;
@@ -21,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -64,13 +64,18 @@ public class AuthServiceImpl implements AuthService {
     public Response<String> signUp(SignUpDTO signUpDTO) {
         if (!Objects.equals(signUpDTO.getPassword(), signUpDTO.getPrePassword()))
             throw RestException.restThrow(MessageConstants.PASSWORDS_AND_PRE_PASSWORD_NOT_EQUAL);
-
-        if (userRepository.existsByPhoneNumber(signUpDTO.getPhoneNumber()))
-            throw RestException.restThrow(MessageConstants.PHONE_ALREADY_REGISTERED);
-
-        User user = userMapper.toUser(signUpDTO);
+        User user;
+        Optional<User> optionalUser = userRepository.findByPhoneNumber(signUpDTO.getPhoneNumber());
+        if (optionalUser.isPresent()) {
+            if (optionalUser.get().isEnabled())
+                throw RestException.restThrow(MessageConstants.PHONE_ALREADY_REGISTERED);
+            user = optionalUser.get();
+            userMapper.update(signUpDTO, user);
+        } else
+            user = userMapper.toUser(signUpDTO);
         user.setPassword(passwordEncoder.encode(signUpDTO.getPassword()));
-        user.setVerificationCode(RestConstants.random.nextInt(100000, 999999));
+        int verificationCode = RestConstants.random.nextInt(100000, 999999);
+        user.setVerificationCode(verificationCode);
         userRepository.save(user);
 
         smsService.sendVerificationSms(user, String.valueOf(user.getVerificationCode()));
@@ -117,7 +122,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public Response<String> forgotPassword(String phoneNumber) {
         User user = userRepository.findByPhoneNumberAndEnabledTrue(phoneNumber.toLowerCase()).orElseThrow(() -> RestException.restThrow(MessageConstants.USER_NOT_FOUND));
-        user.setVerificationCode(RestConstants.random.nextInt(100000, 999999));
+        int verificationCode = RestConstants.random.nextInt(100000, 999999);
+        user.setVerificationCode(verificationCode);
         userRepository.save(user);
 
         smsService.sendVerificationSms(user, String.valueOf(user.getVerificationCode()));
@@ -126,11 +132,14 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Response<String> verifyAccount(String verificationCode) {
-        User user = userRepository.findByVerificationCode(Integer.valueOf(verificationCode)).orElseThrow(() -> RestException.restThrow(MessageConstants.USER_NOT_FOUND));
+    public Response<String> verifyAccount(VerificationCodeDTO verificationCodeDTO) {
+        User user = userRepository.findByPhoneNumber(verificationCodeDTO.getPhoneNumber()).orElseThrow(() -> RestException.restThrow(MessageConstants.USER_NOT_FOUND));
 
         if (user.isEnabled())
             throw RestException.restThrow(MessageConstants.USER_ALREADY_VERIFIED);
+
+        if (!Objects.equals(user.getVerificationCode(), verificationCodeDTO.getVerificationCode()))
+            throw RestException.restThrow(MessageConstants.INCORRECT_VERIFICATION_CODE);
 
         user.setVerificationCode(null);
         user.setEnabled(true);
@@ -139,32 +148,16 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Response<String> checkPasswordVerificationCode(String code) {
-        if (!userRepository.existsByVerificationCode(Integer.valueOf(code)))
-            throw RestException.restThrow(MessageConstants.VERIFICATION_CODE_ALREADY_USED);
+    public Response<String> checkPasswordVerificationCode(VerificationCodeDTO verificationCodeDTO) {
+        if (!userRepository.existsByPhoneNumberAndVerificationCode(verificationCodeDTO.getPhoneNumber(), verificationCodeDTO.getVerificationCode()))
+            throw RestException.restThrow(MessageConstants.VERIFICATION_CODE_ALREADY_USED_OR_INCORRECT);
 
         return Response.successResponse();
     }
 
-    private User checkPhoneNumberAndPasswordAndEtcAndSetAuthenticationOrThrow(String phoneNumber, String password) {
-        try {
-            Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(phoneNumber, password));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            return (User) authentication.getPrincipal();
-        } catch (DisabledException | LockedException | CredentialsExpiredException disabledException) {
-            throw RestException.restThrow(
-                    MessageConstants.USER_NOT_FOUND_OR_DISABLED,
-                    RestConstants.USER_NOT_ACTIVE, HttpStatus.FORBIDDEN);
-        } catch (BadCredentialsException | UsernameNotFoundException badCredentialsException) {
-            throw RestException.restThrow(MessageConstants.LOGIN_OR_PASSWORD_ERROR, RestConstants.INCORRECT_USERNAME_OR_PASSWORD, HttpStatus.FORBIDDEN);
-        }
-    }
-
-
     private TokenDTO makeTokenDTO(User user) {
         Timestamp tokenIssuedAt = new Timestamp(System.currentTimeMillis() / 1000 * 1000);
         String accessToken = jwtTokenProvider.generateAccessToken(user, tokenIssuedAt);
-        String refreshToken = jwtTokenProvider.generateRefreshToken(user);
 
         user.setTokenIssuedAt(tokenIssuedAt);
         userRepository.save(user);
@@ -172,7 +165,6 @@ public class AuthServiceImpl implements AuthService {
         return TokenDTO
                 .builder()
                 .accessToken(accessToken)
-                .refreshToken(refreshToken)
                 .build();
     }
 }

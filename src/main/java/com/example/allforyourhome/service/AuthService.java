@@ -15,9 +15,9 @@ public interface AuthService extends UserDetailsService {
 
     Response<String> resetPassword(ResetPasswordDTO resetPasswordDTO);
 
-    Response<String> forgotPassword(String email);
+    Response<String> forgotPassword(String phoneNumber);
 
-    Response<String> verifyAccount(String verificationCode);
+    Response<String> verifyAccount(VerificationCodeDTO verificationCodeDTO);
 
-    Response<String> checkPasswordVerificationCode(String code);
+    Response<String> checkPasswordVerificationCode(VerificationCodeDTO verificationCodeDTO);
 }

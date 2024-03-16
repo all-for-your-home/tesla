@@ -1,5 +1,7 @@
 package com.example.allforyourhome.config;
 
+import com.example.allforyourhome.exceptions.CustomErrorDecoder;
+import feign.codec.ErrorDecoder;
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;
@@ -33,8 +35,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 new Components().addSecuritySchemes("Bearer Authentication", createAPIKeyScheme())
         ).info(
                 new Info()
-                        .title("DB-search API")
-                        .description("This api was generated using springdoc for DB-search app")
+                        .title("All for your Home")
+                        .description("This api was generated using springdoc for All For Your Home app")
                         .version("1.0")
                         .contact(
                                 new Contact()
@@ -58,5 +60,10 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Bean
     public SnsClient snsClient() {
         return SnsClient.builder().region(Region.EU_WEST_1).build();
+    }
+
+    @Bean
+    public ErrorDecoder errorDecoder() {
+        return new CustomErrorDecoder();
     }
 }

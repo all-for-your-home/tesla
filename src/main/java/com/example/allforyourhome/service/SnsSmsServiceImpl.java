@@ -11,10 +11,9 @@ import software.amazon.awssdk.services.sns.model.PublishRequest;
 import software.amazon.awssdk.services.sns.model.PublishResponse;
 import software.amazon.awssdk.services.sns.model.SnsException;
 
-@Service
 @Slf4j
 @RequiredArgsConstructor
-public class SmsServiceImpl implements SmsService {
+public class SnsSmsServiceImpl implements SmsService {
     private final SnsClient snsClient;
 
     @Async
