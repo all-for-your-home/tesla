@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/furniture
+    url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
-    password: root1234
+    password: postgres
   jpa:
     hibernate:
       ddl-auto: update
@@ -16,7 +16,7 @@ jwt:
     key: cksdIOJHGytgyuhd4651846DE7E0plmnlo22455hkfjsieioef45785654czxdkcjasincosaffd
     expiration-time: 7200000000
   refresh:
-    key: kjecnjewk4896213-={}]dqKJBBUI77y)0@#!£485142
+    key: cksdIOJHGytgyuhd465owqpqpowwkoenuyydqlmnlo22455hkfjsieioef45dqwiowodjiowejjowiedkmd
     expiration-time: 604800000
 
 app:

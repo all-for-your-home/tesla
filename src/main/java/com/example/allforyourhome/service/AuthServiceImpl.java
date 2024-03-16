@@ -165,7 +165,6 @@ public class AuthServiceImpl implements AuthService {
         return TokenDTO
                 .builder()
                 .accessToken(accessToken)
-                .tokenType(RestConstants.TOKEN_TYPE)
                 .build();
     }
 }
