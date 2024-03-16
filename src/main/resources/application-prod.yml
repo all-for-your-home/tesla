@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/furniture
+    url: jdbc:postgresql://localhost:5432/postgres
     username: postgres
-    password: come on
+    password: postgres
   jpa:
     hibernate:
       ddl-auto: update

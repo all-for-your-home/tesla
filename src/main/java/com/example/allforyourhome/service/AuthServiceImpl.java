@@ -8,6 +8,7 @@ import com.example.allforyourhome.repository.UserRepository;
 import com.example.allforyourhome.security.JwtTokenProvider;
 import com.example.allforyourhome.utils.MessageConstants;
 import com.example.allforyourhome.utils.RestConstants;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.*;
@@ -126,7 +127,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Response<String> verifyAccount(String verificationCode) {
-        User user = userRepository.findByVerificationCode(verificationCode).orElseThrow(() -> RestException.restThrow(MessageConstants.USER_NOT_FOUND));
+        User user = userRepository.findByVerificationCode(Integer.valueOf(verificationCode)).orElseThrow(() -> RestException.restThrow(MessageConstants.USER_NOT_FOUND));
 
         if (user.isEnabled())
             throw RestException.restThrow(MessageConstants.USER_ALREADY_VERIFIED);
@@ -139,7 +140,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public Response<String> checkPasswordVerificationCode(String code) {
-        if (!userRepository.existsByVerificationCode(code))
+        if (!userRepository.existsByVerificationCode(Integer.valueOf(code)))
             throw RestException.restThrow(MessageConstants.VERIFICATION_CODE_ALREADY_USED);
 
         return Response.successResponse();

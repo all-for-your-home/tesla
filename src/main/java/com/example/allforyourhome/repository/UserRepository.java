@@ -13,7 +13,7 @@ public interface UserRepository extends JpaRepository<User, UUID> {
 
     boolean existsByPhoneNumber(String phoneNumber);
 
-    Optional<User> findByVerificationCode(String verificationCode);
+    Optional<User> findByVerificationCode(Integer verificationCode);
 
-    boolean existsByVerificationCode(String verificationCode);
+    boolean existsByVerificationCode(Integer verificationCode);
 }
