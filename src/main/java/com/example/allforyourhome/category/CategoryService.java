@@ -14,16 +14,17 @@ import java.util.List;
 public class CategoryService {
 
     private final CategoryRepository repository;
-    private ModelMapper mapper=new ModelMapper();
+    private final ModelMapper mapper = new ModelMapper();
+
     public List<CategoryResponseDto> getAll(
     ) {
-      return repository
-              .findAll()
-              .stream()
-              .map(
-                      category -> mapper
-                              .map(category,CategoryResponseDto.class)
-              )
-              .toList();
+        return repository
+                .findAll()
+                .stream()
+                .map(
+                        category -> mapper
+                                .map(category, CategoryResponseDto.class)
+                )
+                .toList();
     }
 }

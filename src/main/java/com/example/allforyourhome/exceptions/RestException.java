@@ -16,11 +16,9 @@ public class RestException extends RuntimeException {
     private String userMsg;
     private HttpStatus status;
     private List<ErrorData> errors;
-
     private String resourceName;
     private String fieldName;
     private Object fieldValue;
-
     private Integer errorCode;
 
 
